@@ -14,6 +14,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 /*
  * Test the insert data for the partner metadata
@@ -43,16 +44,25 @@ public class InsertLiteratureTest extends InsertLiterature {
 
 	// Select SPARQL
 	@Bean
-	InsertLiterature getInsertLitrature() {
-		InsertLiterature pss = new InsertLiterature();
-		return pss;
+	SelectLiterature getSelectLiterature() {
+		SelectLiterature sLiterature = new SelectLiterature();
+		return sLiterature;
 	}
 	@Test
 	public void testSelectSparql() throws SparqlException {
-		String test = getInsertLiterature().getSparql();
+		String test = getSelectLiterature().getSparql();
 		System.out.println(test);
-		logger.debug(getInsertLiterature().getSparql());
+		logger.debug(getSelectLiterature().getSparql());
 		
+	}
+
+	// Exec SPARQL
+	@Test
+	@Transactional
+	public void inseqtSparql() throws SparqlException {
+		sparqlDAO.query(getSelectLiterature());
+		sparqlDAO.insert(getInsertLiterature());
+//		sparqlDAO.query(getSelectLiterature());
 	}
 	
 }
