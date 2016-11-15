@@ -26,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 @EnableAutoConfiguration 
 public class InsertLiteratureTest {
 
-  private static final Log logger = LogFactory.getLog(InsertLiteratureTest.class);
 	
 	@Autowired
 	SparqlDAO sparqlDAO;
@@ -56,14 +55,11 @@ public class InsertLiteratureTest {
 	public void testInsertSparql() throws SparqlException {
 		String test = getInsertLiterature().getSparql();
 		System.out.println(test);
-		logger.debug(getInsertLiterature().getSparql());
 	}
 	@Test
 	public void testSelectSparql() throws SparqlException {
 		String test = getSelectLiterature().getSparql();
 		System.out.println(test);
-		logger.debug(getSelectLiterature().getSparql());
-		
 	}
 */
 

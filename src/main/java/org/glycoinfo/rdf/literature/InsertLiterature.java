@@ -45,7 +45,7 @@ public class InsertLiterature extends InsertSparqlBean implements Literature {
 					+ " a bibo:Article; \n"
 					+ " dcterms:identifier \"" + getSparqlEntity().getValue(PubemdId) + "\"; \n"
 					+ " rdfs:seeAlso " + "<http://identifiers.org/pubmed/" + getSparqlEntity().getValue(PubemdId) + ">; \n"
-					+ " rdfs:seeAlso " + "<http://rdf.ncbi.nlm.nih.gov/pubmed/" + getSparqlEntity().getValue(PubemdId) + "> \n";
+					+ " rdfs:seeAlso " + "<http://rdf.ncbi.nlm.nih.gov/pubmed/" + getSparqlEntity().getValue(PubemdId) + ">. \n";
 		}
 		return this.insert;
 	}
