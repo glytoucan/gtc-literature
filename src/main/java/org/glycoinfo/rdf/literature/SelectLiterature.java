@@ -38,11 +38,6 @@ public class SelectLiterature extends SelectSparqlBean implements Literature {
 				+ " ?literature dcterms:identifier ?pubmed_id. \n";
 		return where;
 	}
-	@Override
-	public String getLimit() {
-		String limit = "100";
-		return limit;
-	}
 	protected Log Logger = LogFactory.getLog(getClass());
 }
 
