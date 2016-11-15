@@ -32,11 +32,16 @@ public class SelectLiterature extends SelectSparqlBean implements Literature {
 	@Override
 	public String getWhere() throws SparqlException {
 		String where = "\n"
-				+ "VALUES ?accNum { \"" + getSparqlEntity().getValue(AccessionNumber) + "\" } \n"
-				+ "?glycan glytoucan:has_primary_id ?accNum. \n"
-				+ "?glycan dcterms:references ?literature. \n"
-				+ "?literature dcterms:identifier ?pubmed_id. \n";
+				+ " VALUES ?accNum { \"" + getSparqlEntity().getValue(AccessionNumber) + "\" } \n"
+				+ " ?glycan glytoucan:has_primary_id ?accNum. \n"
+				+ " ?glycan dcterms:references ?literature. \n"
+				+ " ?literature dcterms:identifier ?pubmed_id. \n";
 		return where;
+	}
+	@Override
+	public String getLimit() {
+		String limit = "100";
+		return limit;
 	}
 	protected Log Logger = LogFactory.getLog(getClass());
 }

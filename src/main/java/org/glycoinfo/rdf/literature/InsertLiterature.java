@@ -39,6 +39,7 @@ public class InsertLiterature extends InsertSparqlBean implements Literature {
 	public String getInsert() {
 		if (StringUtils.isNotBlank(getSparqlEntity().getValue(AccessionNumber)) && StringUtils.isNotBlank(getSparqlEntity().getValue(PubemdId))) {
 			this.insert = "<http://rdf.glycoinfo.org/glycan/" + getSparqlEntity().getValue(AccessionNumber) +"> \n"
+					+ " glytoucan:has_primary_id \"" + getSparqlEntity().getValue(AccessionNumber) + "\"; \n"
 					+ " dcterms:references " + "<http://rdf.ncbi.nlm.nih.gov/pubmed/" + getSparqlEntity().getValue(PubemdId) + ">. \n"
 					+ "<http://rdf.ncbi.nlm.nih.gov/pubmed/" + getSparqlEntity().getValue(PubemdId) + "> \n"
 					+ " a bibo:Article; \n"
@@ -48,7 +49,6 @@ public class InsertLiterature extends InsertSparqlBean implements Literature {
 		}
 		return this.insert;
 	}
-        
         
 }
 

@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringApplicationConfiguration(classes = { VirtSesameTransactionConfig.class, InsertLiteratureTest.class })
 @Configuration
 @EnableAutoConfiguration 
-public class InsertLiteratureTest extends InsertLiterature {
+public class InsertLiteratureTest {
 
   private static final Log logger = LogFactory.getLog(InsertLiteratureTest.class);
 	
@@ -33,20 +33,30 @@ public class InsertLiteratureTest extends InsertLiterature {
 	
 	@Bean
 	InsertLiterature getInsertLiterature() {
-		InsertLiterature ins = new InsertLiterature();
+		InsertLiterature insertLiterature = new InsertLiterature();
 		SparqlEntity sparqlEntity = new SparqlEntity();
 		sparqlEntity.setValue(Literature.AccessionNumber, "G12345AB");
 		sparqlEntity.setValue(Literature.PubemdId, "12345");
-		ins.setSparqlEntity(sparqlEntity);
-		ins.setGraph("http://test/literature");
-		return ins;	
+		insertLiterature.setSparqlEntity(sparqlEntity);
+		insertLiterature.setGraph("http://test/literature");
+		return insertLiterature;	
 	}
 
 	// Select SPARQL
 	@Bean
 	SelectLiterature getSelectLiterature() {
-		SelectLiterature sLiterature = new SelectLiterature();
-		return sLiterature;
+		SelectLiterature selectLiterature = new SelectLiterature();
+		SparqlEntity sparqlEntity = new SparqlEntity();
+		sparqlEntity.setValue(Literature.AccessionNumber, "G12345AB");
+		selectLiterature.setSparqlEntity(sparqlEntity);
+		return selectLiterature;
+	}
+/*
+	@Test
+	public void testInsertSparql() throws SparqlException {
+		String test = getInsertLiterature().getSparql();
+		System.out.println(test);
+		logger.debug(getInsertLiterature().getSparql());
 	}
 	@Test
 	public void testSelectSparql() throws SparqlException {
@@ -55,14 +65,15 @@ public class InsertLiteratureTest extends InsertLiterature {
 		logger.debug(getSelectLiterature().getSparql());
 		
 	}
+*/
 
 	// Exec SPARQL
 	@Test
 	@Transactional
 	public void inseqtSparql() throws SparqlException {
-		sparqlDAO.query(getSelectLiterature());
-		sparqlDAO.insert(getInsertLiterature());
 //		sparqlDAO.query(getSelectLiterature());
+		sparqlDAO.insert(getInsertLiterature());
+		sparqlDAO.query(getSelectLiterature());
 	}
 	
 }
