@@ -34,7 +34,7 @@ public class DeleteLiteratureTest {
 	DeleteLiterature getDeleteLiterature() {
 		DeleteLiterature deleteLiterature = new DeleteLiterature();
 		SparqlEntity sparqlEntity = new SparqlEntity();
-		sparqlEntity.setValue(Literature.AccessionNumber, "G12345AB");
+		sparqlEntity.setValue(Literature.AccessionNumber, "G82109MW");
 		sparqlEntity.setValue(Literature.PubemdId, "12345");
 		deleteLiterature.setGraph("http://test/literature");
 		deleteLiterature.setSparqlEntity(sparqlEntity);
@@ -52,7 +52,7 @@ public class DeleteLiteratureTest {
 	InsertLiterature getInsertLiterature() {
 		InsertLiterature insertLiterature = new InsertLiterature();
 		SparqlEntity sparqlEntity = new SparqlEntity();
-		sparqlEntity.setValue(Literature.AccessionNumber, "G12345AB");
+		sparqlEntity.setValue(Literature.AccessionNumber, "G82109MW");
 		sparqlEntity.setValue(Literature.PubemdId, "12345");
 		insertLiterature.setSparqlEntity(sparqlEntity);
 		insertLiterature.setGraph("http://test/literature");
@@ -63,7 +63,7 @@ public class DeleteLiteratureTest {
 	SelectLiterature getSelectLiterature() {
 		SelectLiterature selectLiterature = new SelectLiterature();
 		SparqlEntity sparqlEntity = new SparqlEntity();
-		sparqlEntity.setValue(Literature.AccessionNumber, "G12345AB");
+		sparqlEntity.setValue(Literature.AccessionNumber, "G82109MW");
 		selectLiterature.setSparqlEntity(sparqlEntity);
 		selectLiterature.setLimit("100");
 		return selectLiterature;

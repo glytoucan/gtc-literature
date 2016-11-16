@@ -25,6 +25,7 @@ public class SelectLiterature extends SelectSparqlBean implements Literature {
 				+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" 
 				+ "PREFIX dcterms: <http://purl.org/dc/terms/>\n"
 				+ "PREFIX bibo: <http://purl.org/ontology/bibo/>\n"
+				+ "PREFIX gly: <http://rdf.glycoinfo.org/glycan/>\n"
 				+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\n";
 		this.select = "DISTINCT ?pubmed_id \n";
 
@@ -32,9 +33,7 @@ public class SelectLiterature extends SelectSparqlBean implements Literature {
 	@Override
 	public String getWhere() throws SparqlException {
 		String where = "\n"
-				+ " VALUES ?accNum { \"" + getSparqlEntity().getValue(AccessionNumber) + "\" } \n"
-				+ " ?glycan glytoucan:has_primary_id ?accNum. \n"
-				+ " ?glycan dcterms:references ?literature. \n"
+				+ " gly:" + getSparqlEntity().getValue(AccessionNumber) + " dcterms:references ?literature. \n"
 				+ " ?literature dcterms:identifier ?pubmed_id. \n";
 		return where;
 	}

@@ -10,14 +10,14 @@ Insert mapped IDs between Accession number and PubMed ID by insert SPARQL.
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix bibo: <http://purl.org/ontology/bibo/>.
 
-<http://rdf.glycoinfo.org/glycan/{accession number}> 
-   decterms:references <http://rdf.ncbi.nlm.nih.gov/pubmed/{pubmed id}> .
+# Literature
+<http://rdf.glycoinfo.org/glycan/{accession_number}> #Saccharide 
+ dcterms:references <http://rdf.glycoinfo.org/references/{pubmed_id}> ; #Article
 
-<http://rdf.ncbi.nlm.nih.gov/pubmed/{pubmed id}>
-  a  bibo:Article;
-  dcterms:identifier  "{pubmed id}";
-  rdfs:seeAlso  <http://identifiers.org/pubmed/{pubmed id}>;
-  rdfs:seeAlso  <http://rdf.ncbi.nlm.nih.gov/pubmed/{pubmed id}>. 
+<http://rdf.glycoinfo.org/references/{pubmed_id}>
+ a bibo:Article ;
+ dcterms:identifier "{pubmed_id}" ;
+ rdfs:seeAlso <http://identifiers.org/pubmed/{pubmed_id}> . #PubMed URL
 
  @author shinmachis
 */
@@ -39,13 +39,11 @@ public class InsertLiterature extends InsertSparqlBean implements Literature {
 	public String getInsert() {
 		if (StringUtils.isNotBlank(getSparqlEntity().getValue(AccessionNumber)) && StringUtils.isNotBlank(getSparqlEntity().getValue(PubemdId))) {
 			this.insert = "<http://rdf.glycoinfo.org/glycan/" + getSparqlEntity().getValue(AccessionNumber) +"> \n"
-					+ " glytoucan:has_primary_id \"" + getSparqlEntity().getValue(AccessionNumber) + "\"; \n"
-					+ " dcterms:references " + "<http://rdf.ncbi.nlm.nih.gov/pubmed/" + getSparqlEntity().getValue(PubemdId) + ">. \n"
-					+ "<http://rdf.ncbi.nlm.nih.gov/pubmed/" + getSparqlEntity().getValue(PubemdId) + "> \n"
+					+ " dcterms:references " + "<http://rdf.glycoinfo.org/references/" + getSparqlEntity().getValue(PubemdId) + ">. \n"
+					+ "<http://rdf.glycoinfo.org/references/" + getSparqlEntity().getValue(PubemdId) + "> \n"
 					+ " a bibo:Article; \n"
 					+ " dcterms:identifier \"" + getSparqlEntity().getValue(PubemdId) + "\"; \n"
-					+ " rdfs:seeAlso " + "<http://identifiers.org/pubmed/" + getSparqlEntity().getValue(PubemdId) + ">; \n"
-					+ " rdfs:seeAlso " + "<http://rdf.ncbi.nlm.nih.gov/pubmed/" + getSparqlEntity().getValue(PubemdId) + ">. \n";
+					+ " rdfs:seeAlso " + "<http://identifiers.org/pubmed/" + getSparqlEntity().getValue(PubemdId) + ">. \n";
 		}
 		return this.insert;
 	}
