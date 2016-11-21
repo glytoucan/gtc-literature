@@ -26,9 +26,6 @@ public class LiteratureProcedure {
 	@Autowired
 	SelectLiterature selectLiterature;
 	
-	@Autowired
-	@Qualifier("DatabaseSelectSparql")
-	SelectSparql databaseSelectSparql;
 	
 	/**
 	 * adds a Literature (bibo:Article).
@@ -53,27 +50,20 @@ public class LiteratureProcedure {
 	@Transactional
 	public String addLiterature(String accessionNumber, String pubmedId) throws LiteratureException {
 		if (pubmedId != null) {
-			
 			SparqlEntity sparqlEntity = new SparqlEntity();
 			sparqlEntity.setValue(Literature.AccessionNumber, accessionNumber);
 			sparqlEntity.setValue(Literature.PubemdId, pubmedId);
 			insertLiterature.setSparqlEntity(sparqlEntity);
 			insertLiterature.setGraph("http://rdf.glytoucan.org/contributor/literature");
-			
 			try {
 				sparqlDAO.insert(insertLiterature);
 			} catch (SparqlException e) {
 				throw new LiteratureException(e);
 			}
-
 		} else {
-
 			Logger.info("PubMed ID is null");
-
 		}
-
 		return pubmedId;
-
 	}
 
 }

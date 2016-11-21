@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {LiteratureProcedureTest.class, VirtSesameTransactionConfig.class})
+@SpringApplicationConfiguration(classes = {LiteratureProcedureTest.class, VirtSesameTransactionConfig.class, LiteratureProcedureConfig.class})
 @Configuration
 @EnableAutoConfiguration
 public class LiteratureProcedureTest  {
@@ -38,10 +38,12 @@ public class LiteratureProcedureTest  {
 	@Autowired
 	LiteratureProcedure literatureProcedure;
 	
+	
 	@Test
 	@Transactional
 	public void testAddLiterature() throws LiteratureException {
 		String id = literatureProcedure.addLiterature("G12345MO", "123456");
 		Assert.assertNotNull(id);
 	}
+
 }
