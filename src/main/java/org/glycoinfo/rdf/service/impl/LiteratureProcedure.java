@@ -2,16 +2,15 @@ package org.glycoinfo.rdf.service.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.glycoinfo.rdf.SelectSparql;
 import org.glycoinfo.rdf.SparqlException;
 import org.glycoinfo.rdf.dao.SparqlDAO;
 import org.glycoinfo.rdf.dao.SparqlEntity;
+import org.glycoinfo.rdf.literature.DeleteLiterature;
 import org.glycoinfo.rdf.literature.InsertLiterature;
 import org.glycoinfo.rdf.literature.Literature;
 import org.glycoinfo.rdf.literature.SelectLiterature;
 import org.glycoinfo.rdf.service.exception.LiteratureException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.transaction.annotation.Transactional;
 
 public class LiteratureProcedure {
@@ -22,10 +21,9 @@ public class LiteratureProcedure {
 	
 	@Autowired
 	InsertLiterature insertLiterature;
-	
+
 	@Autowired
-	SelectLiterature selectLiterature;
-	
+	DeleteLiterature deleteLiterature;
 	
 	/**
 	 * adds a Literature (bibo:Article).
@@ -47,6 +45,8 @@ public class LiteratureProcedure {
 		 @throws SparqlException
 	 * 
 	 */
+
+	// Add
 	@Transactional
 	public String addLiterature(String accessionNumber, String pubmedId) throws LiteratureException {
 		if (pubmedId != null) {
@@ -54,7 +54,6 @@ public class LiteratureProcedure {
 			sparqlEntity.setValue(Literature.AccessionNumber, accessionNumber);
 			sparqlEntity.setValue(Literature.PubemdId, pubmedId);
 			insertLiterature.setSparqlEntity(sparqlEntity);
-			insertLiterature.setGraph("http://rdf.glytoucan.org/contributor/literature");
 			try {
 				sparqlDAO.insert(insertLiterature);
 			} catch (SparqlException e) {
@@ -66,4 +65,22 @@ public class LiteratureProcedure {
 		return pubmedId;
 	}
 
+	// Delete
+	@Transactional
+	public String deleteLiterature(String accessionNumber, String pubmedId) throws LiteratureException {
+		if (pubmedId != null) {
+			SparqlEntity sparqlEntity = new SparqlEntity();
+			sparqlEntity.setValue(Literature.AccessionNumber, accessionNumber);
+			sparqlEntity.setValue(Literature.PubemdId, pubmedId);
+			deleteLiterature.setSparqlEntity(sparqlEntity);
+			try {
+				sparqlDAO.delete(deleteLiterature);
+			} catch (SparqlException e) {
+				throw new LiteratureException(e);
+			}
+		} else {
+			Logger.info("PubMed ID is null");
+		}
+		return pubmedId;
+	}
 }

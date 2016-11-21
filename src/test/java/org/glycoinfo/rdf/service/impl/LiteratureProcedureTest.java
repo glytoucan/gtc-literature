@@ -39,11 +39,20 @@ public class LiteratureProcedureTest  {
 	LiteratureProcedure literatureProcedure;
 	
 	
+/*
 	@Test
 	@Transactional
 	public void testAddLiterature() throws LiteratureException {
 		String id = literatureProcedure.addLiterature("G12345MO", "123456");
 		Assert.assertNotNull(id);
+	}
+*/
+
+	@Test
+	@Transactional
+	public void testDeleteLiterature() throws LiteratureException {
+		String accNum = literatureProcedure.deleteLiterature("G12345MO", "12345");
+		Assert.assertNotNull(accNum);
 	}
 
 }
