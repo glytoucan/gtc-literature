@@ -25,6 +25,9 @@ public class LiteratureProcedure {
 	@Autowired
 	DeleteLiterature deleteLiterature;
 	
+	@Autowired
+	SelectLiterature selectLiterature;
+
 	/**
 	 * adds a Literature (bibo:Article).
 	 * This RDF construct by Accession number and PubMed ID
@@ -82,5 +85,23 @@ public class LiteratureProcedure {
 			Logger.info("PubMed ID is null");
 		}
 		return pubmedId;
+	}
+
+	// Search
+	@Transactional
+	public String searchLiterature(String accessionNumber) throws LiteratureException {
+		if (accessionNumber != null) {
+			SparqlEntity sparqlEntity = new SparqlEntity();
+			sparqlEntity.setValue(Literature.AccessionNumber, accessionNumber);
+			selectLiterature.setSparqlEntity(sparqlEntity);
+			try {
+				sparqlDAO.query(selectLiterature);
+			} catch (SparqlException e) {
+				throw new LiteratureException(e);
+			}
+		} else {
+			Logger.info("PubMed ID is null");
+		}
+		return accessionNumber;
 	}
 }

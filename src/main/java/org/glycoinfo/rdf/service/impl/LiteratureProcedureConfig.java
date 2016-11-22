@@ -36,7 +36,6 @@ public class LiteratureProcedureConfig implements GraphConfig {
 	@Bean
 	SelectLiterature getSelectLiterature() {
 		SelectLiterature selectLiterature = new SelectLiterature();
-		selectLiterature.setFrom(graph + "/contributor/literature");
 		selectLiterature.setFrom("FROM <" + graph + "/contributor/literature" + ">\n");
 		return selectLiterature;
 	}
