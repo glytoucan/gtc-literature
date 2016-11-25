@@ -7,6 +7,8 @@ import org.glycoinfo.rdf.literature.SelectLiterature;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import jp.bluetree.gov.ncbi.service.NCBIService;
+
 @Configuration
 public class LiteratureProcedureConfig implements GraphConfig {
 	
@@ -39,4 +41,11 @@ public class LiteratureProcedureConfig implements GraphConfig {
 		selectLiterature.setFrom("FROM <" + graph + "/contributor/literature" + ">\n");
 		return selectLiterature;
 	}
+	
+	 // Select
+  @Bean
+  NCBIService ncbiService() {
+    NCBIService ncbiService = new NCBIService();
+    return ncbiService;
+  }
 }
