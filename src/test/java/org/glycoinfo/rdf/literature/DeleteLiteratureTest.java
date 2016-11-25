@@ -52,7 +52,8 @@ public class DeleteLiteratureTest {
 	InsertLiterature getInsertLiterature() {
 		InsertLiterature insertLiterature = new InsertLiterature();
 		SparqlEntity sparqlEntity = new SparqlEntity();
-		sparqlEntity.setValue(Literature.AccessionNumber, "G82109MW");
+//		sparqlEntity.setValue(Literature.AccessionNumber, "G82109MW");
+		sparqlEntity.setValue(Literature.AccessionNumber, "G12345MW");
 		sparqlEntity.setValue(Literature.PubemdId, "12345");
 		insertLiterature.setSparqlEntity(sparqlEntity);
 		insertLiterature.setGraph("http://rdf.glytoucan.org/contributor/literature");
@@ -63,9 +64,10 @@ public class DeleteLiteratureTest {
 	SelectLiterature getSelectLiterature() {
 		SelectLiterature selectLiterature = new SelectLiterature();
 		SparqlEntity sparqlEntity = new SparqlEntity();
-		sparqlEntity.setValue(Literature.AccessionNumber, "G82109MW");
+//		sparqlEntity.setValue(Literature.AccessionNumber, "G82109MW");
+		sparqlEntity.setValue(Literature.AccessionNumber, "G12345MW");
 		selectLiterature.setSparqlEntity(sparqlEntity);
-		selectLiterature.setLimit("100");
+//		selectLiterature.setLimit("100");
 		return selectLiterature;
 	}
 	
@@ -74,8 +76,8 @@ public class DeleteLiteratureTest {
 //	@Transactional
 	public void deleteSparql() throws SparqlException {
 		sparqlDAO.insert(getInsertLiterature());
-//		sparqlDAO.query(getSelectLiterature());
-//		sparqlDAO.delete(getDeleteLiterature());
-//		sparqlDAO.query(getSelectLiterature());
+		sparqlDAO.query(getSelectLiterature());
+		sparqlDAO.delete(getDeleteLiterature());
+		sparqlDAO.query(getSelectLiterature());
 	}
 }

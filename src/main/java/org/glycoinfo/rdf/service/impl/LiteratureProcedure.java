@@ -30,8 +30,11 @@ public class LiteratureProcedure {
 	DeleteLiterature deleteLiterature;
 	
 	@Autowired
+
 	NCBIService ncbiService;
 	
+	SelectLiterature selectLiterature;
+
 	/**
 	 * adds a Literature (bibo:Article).
 	 * This RDF construct by Accession number and PubMed ID
@@ -56,7 +59,7 @@ public class LiteratureProcedure {
 	// Add
 	@Transactional
 	public String addLiterature(String accessionNumber, String pubmedId) throws LiteratureException {
-		if (pubmedId != null) {
+		if (StringUtils.isNotBlank(accessionNumber) && StringUtils.isNotBlank(pubmedId)) {
 		  Publication pub = ncbiService.getSummary(pubmedId);
       if (null==pub || StringUtils.isBlank(pub.getTitle())) {
         throw new LiteratureException("could not retrieve publication title");
@@ -73,7 +76,7 @@ public class LiteratureProcedure {
 			}
 		} else {
 			logger.info("PubMed ID is null");
-			throw new LiteratureException("literature id cannot be null.");
+			throw new LiteratureException("literature id or accession number cannot be null.");
 		}
 		return pubmedId;
 	}
@@ -81,7 +84,7 @@ public class LiteratureProcedure {
 	// Delete
 	@Transactional
 	public String deleteLiterature(String accessionNumber, String pubmedId) throws LiteratureException {
-		if (pubmedId != null) {
+		if (StringUtils.isNotBlank(accessionNumber) && StringUtils.isNotBlank(pubmedId)) {
 			SparqlEntity sparqlEntity = new SparqlEntity();
 			sparqlEntity.setValue(Literature.AccessionNumber, accessionNumber);
 			sparqlEntity.setValue(Literature.PubemdId, pubmedId);
@@ -96,5 +99,24 @@ public class LiteratureProcedure {
       throw new LiteratureException("literature id cannot be null.");
 		}
 		return pubmedId;
+	}
+
+	// Search
+	@Transactional
+	public String searchLiterature(String accessionNumber) throws LiteratureException {
+		if (StringUtils.isNotBlank(accessionNumber)) {
+			SparqlEntity sparqlEntity = new SparqlEntity();
+			sparqlEntity.setValue(Literature.AccessionNumber, accessionNumber);
+			selectLiterature.setSparqlEntity(sparqlEntity);
+			try {
+				sparqlDAO.query(selectLiterature);
+			} catch (SparqlException e) {
+				throw new LiteratureException(e);
+			}
+		} else {
+			logger.info("PubMed ID is null");
+      throw new LiteratureException("literature id cannot be null.");
+		}
+		return accessionNumber;
 	}
 }
