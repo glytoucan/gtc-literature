@@ -1,31 +1,36 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.glytoucan</groupId>
-  <artifactId>gtc-literature</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
+	<groupId>org.glytoucan</groupId>
+	<artifactId>gtc-literature</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 
-  <name>gtc-literature</name>
-  <url>http://maven.apache.org</url>
+	<name>gtc-literature</name>
+	<url>http://maven.apache.org</url>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-	<dependency>
-	  <groupId>org.glycoinfo</groupId>
-	  <artifactId>batch</artifactId>
-	  <version>0.3.5-SNAPSHOT</version>
-	</dependency>
-  </dependencies>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.glycoinfo</groupId>
+			<artifactId>batch</artifactId>
+			<version>0.3.5-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>jp.bluetree.gov</groupId>
+			<artifactId>ncbi</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
 
 	<repositories>
 		<repository>
@@ -61,17 +66,17 @@
 			<url>http://repo.spring.io/libs-release</url>
 		</pluginRepository>
 	</pluginRepositories>
-	
+
 	<build>
 		<plugins>
-            <plugin>
+			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<mainClass>${spring.mainClass}</mainClass>
 				</configuration>
-            </plugin>
-            <plugin>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
@@ -79,8 +84,8 @@
 				</configuration>
 			</plugin>
 		</plugins>
-    </build>
-	
+	</build>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

@@ -1,5 +1,6 @@
 package org.glycoinfo.rdf.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.glycoinfo.rdf.SparqlException;
@@ -13,8 +14,11 @@ import org.glycoinfo.rdf.service.exception.LiteratureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import jp.bluetree.gov.ncbi.model.Publication;
+import jp.bluetree.gov.ncbi.service.NCBIService;
+
 public class LiteratureProcedure {
-	private static final Log Logger = LogFactory.getLog(LiteratureProcedure.class);
+	private static final Log logger = LogFactory.getLog(LiteratureProcedure.class);
 	
 	@Autowired
 	SparqlDAO sparqlDAO;
@@ -24,6 +28,9 @@ public class LiteratureProcedure {
 
 	@Autowired
 	DeleteLiterature deleteLiterature;
+	
+	@Autowired
+	NCBIService ncbiService;
 	
 	/**
 	 * adds a Literature (bibo:Article).
@@ -50,6 +57,11 @@ public class LiteratureProcedure {
 	@Transactional
 	public String addLiterature(String accessionNumber, String pubmedId) throws LiteratureException {
 		if (pubmedId != null) {
+		  Publication pub = ncbiService.getSummary(pubmedId);
+      if (null==pub || StringUtils.isBlank(pub.getTitle())) {
+        throw new LiteratureException("could not retrieve publication title");
+      }
+		  
 			SparqlEntity sparqlEntity = new SparqlEntity();
 			sparqlEntity.setValue(Literature.AccessionNumber, accessionNumber);
 			sparqlEntity.setValue(Literature.PubemdId, pubmedId);
@@ -60,7 +72,8 @@ public class LiteratureProcedure {
 				throw new LiteratureException(e);
 			}
 		} else {
-			Logger.info("PubMed ID is null");
+			logger.info("PubMed ID is null");
+			throw new LiteratureException("literature id cannot be null.");
 		}
 		return pubmedId;
 	}
@@ -79,7 +92,8 @@ public class LiteratureProcedure {
 				throw new LiteratureException(e);
 			}
 		} else {
-			Logger.info("PubMed ID is null");
+			logger.info("PubMed ID is null");
+      throw new LiteratureException("literature id cannot be null.");
 		}
 		return pubmedId;
 	}
