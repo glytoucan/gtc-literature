@@ -4,8 +4,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.glycoinfo.rdf.dao.SparqlDAO;
 import org.glycoinfo.rdf.dao.virt.VirtSesameTransactionConfig;
-import org.glycoinfo.rdf.literature.InsertLiterature;
-import org.glycoinfo.rdf.literature.SelectLiterature;
 import org.glycoinfo.rdf.service.exception.LiteratureException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -42,13 +40,16 @@ public class LiteratureProcedureTest  {
 	@Test
 	@Transactional
 	public void testAddLiterature() throws LiteratureException {
-		literatureProcedure.searchLiterature("G12345MO");
-		literatureProcedure.addLiterature("G12345MO", "12345");
-		literatureProcedure.searchLiterature("G12345MO");
-		literatureProcedure.deleteLiterature("G12345MO", "12345");
-		literatureProcedure.searchLiterature("G12345MO");
+		String id = literatureProcedure.searchLiterature("G12345MO");
+		Assert.assertNotNull(id);
+//		Assert.assertNull(id);
+		literatureProcedure.addLiterature("G12345MO", "12345", "543");
+		String id2 = literatureProcedure.searchLiterature("G12345MO");
+		Assert.assertNotNull(id2);
+		literatureProcedure.deleteLiterature("G12345MO", "12345", "543");
+		String id3 = literatureProcedure.searchLiterature("G12345MO");
+		Assert.assertNotNull(id3);
 //		String id = literatureProcedure.addLiterature("G12345MO", "123456");
-//		Assert.assertNotNull(id);
 	}
 
 /*

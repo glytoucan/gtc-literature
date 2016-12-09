@@ -2,6 +2,7 @@ package org.glycoinfo.rdf.literature;
 
 import org.apache.commons.lang.StringUtils;
 import org.glycoinfo.rdf.InsertSparqlBean;
+import org.glycoinfo.rdf.glycan.Contributor;
 
 /*
 Insert mapped IDs between Accession number and PubMed ID by insert SPARQL.
@@ -42,6 +43,7 @@ public class InsertLiterature extends InsertSparqlBean implements Literature {
 					+ " dcterms:references " + "<http://rdf.glycoinfo.org/references/" + getSparqlEntity().getValue(PubemdId) + ">. \n"
 					+ "<http://rdf.glycoinfo.org/references/" + getSparqlEntity().getValue(PubemdId) + "> \n"
 					+ " a bibo:Article; \n"
+					+ " glytoucan:contributor <http://rdf.glycoinfo.org/glytoucan/contributor/userId/" + getSparqlEntity().getValue(ContributorId) + ">; \n"
 					+ " dcterms:identifier \"" + getSparqlEntity().getValue(PubemdId) + "\"; \n"
 					+ " rdfs:seeAlso " + "<http://identifiers.org/pubmed/" + getSparqlEntity().getValue(PubemdId) + ">. \n";
 		}

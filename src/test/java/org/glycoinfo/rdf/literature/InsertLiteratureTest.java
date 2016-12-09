@@ -39,6 +39,7 @@ public class InsertLiteratureTest {
 		SparqlEntity sparqlEntity = new SparqlEntity();
 		sparqlEntity.setValue(Literature.AccessionNumber, "G12345AB");
 		sparqlEntity.setValue(Literature.PubemdId, "12345");
+		sparqlEntity.setValue(Literature.ContributorId, "5431");
 		insertLiterature.setSparqlEntity(sparqlEntity);
 		insertLiterature.setGraph("http://test/literature");
 		return insertLiterature;	

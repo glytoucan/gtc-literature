@@ -30,9 +30,9 @@ public class LiteratureProcedure {
 	DeleteLiterature deleteLiterature;
 	
 	@Autowired
-
 	NCBIService ncbiService;
 	
+	@Autowired
 	SelectLiterature selectLiterature;
 
 	/**
@@ -58,8 +58,8 @@ public class LiteratureProcedure {
 
 	// Add
 	@Transactional
-	public String addLiterature(String accessionNumber, String pubmedId) throws LiteratureException {
-		if (StringUtils.isNotBlank(accessionNumber) && StringUtils.isNotBlank(pubmedId)) {
+	public String addLiterature(String accessionNumber, String pubmedId, String contributorId) throws LiteratureException {
+		if (StringUtils.isNotBlank(accessionNumber) && StringUtils.isNotBlank(pubmedId) && StringUtils.isNotBlank(contributorId)) {
 		  Publication pub = ncbiService.getSummary(pubmedId);
       if (null==pub || StringUtils.isBlank(pub.getTitle())) {
         throw new LiteratureException("could not retrieve publication title");
@@ -68,6 +68,7 @@ public class LiteratureProcedure {
 			SparqlEntity sparqlEntity = new SparqlEntity();
 			sparqlEntity.setValue(Literature.AccessionNumber, accessionNumber);
 			sparqlEntity.setValue(Literature.PubemdId, pubmedId);
+			sparqlEntity.setValue(Literature.ContributorId, contributorId);
 			insertLiterature.setSparqlEntity(sparqlEntity);
 			try {
 				sparqlDAO.insert(insertLiterature);
@@ -83,11 +84,12 @@ public class LiteratureProcedure {
 
 	// Delete
 	@Transactional
-	public String deleteLiterature(String accessionNumber, String pubmedId) throws LiteratureException {
-		if (StringUtils.isNotBlank(accessionNumber) && StringUtils.isNotBlank(pubmedId)) {
+	public String deleteLiterature(String accessionNumber, String pubmedId, String contributorId) throws LiteratureException {
+		if (StringUtils.isNotBlank(accessionNumber) && StringUtils.isNotBlank(pubmedId) && StringUtils.isNotBlank(contributorId)) {
 			SparqlEntity sparqlEntity = new SparqlEntity();
 			sparqlEntity.setValue(Literature.AccessionNumber, accessionNumber);
 			sparqlEntity.setValue(Literature.PubemdId, pubmedId);
+			sparqlEntity.setValue(Literature.ContributorId, contributorId);
 			deleteLiterature.setSparqlEntity(sparqlEntity);
 			try {
 				sparqlDAO.delete(deleteLiterature);

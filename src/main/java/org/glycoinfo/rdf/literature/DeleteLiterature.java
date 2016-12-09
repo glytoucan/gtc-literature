@@ -41,6 +41,7 @@ public class DeleteLiterature extends DeleteSparqlBean implements Literature {
 					+ " dcterms:references " + "<http://rdf.glycoinfo.org/references/" + getSparqlEntity().getValue(PubemdId) + ">. \n"
 					+ "<http://rdf.glycoinfo.org/references/" + getSparqlEntity().getValue(PubemdId) + "> \n"
 					+ " a bibo:Article; \n"
+					+ " glytoucan:contributor <http://rdf.glycoinfo.org/glytoucan/contributor/userId/" + getSparqlEntity().getValue(ContributorId) + ">; \n"
 					+ " dcterms:identifier \"" + getSparqlEntity().getValue(PubemdId) + "\"; \n"
 					+ " rdfs:seeAlso " + "<http://identifiers.org/pubmed/" + getSparqlEntity().getValue(PubemdId) + "> .\n";
 		}
