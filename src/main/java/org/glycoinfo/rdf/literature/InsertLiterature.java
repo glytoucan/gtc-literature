@@ -2,7 +2,6 @@ package org.glycoinfo.rdf.literature;
 
 import org.apache.commons.lang.StringUtils;
 import org.glycoinfo.rdf.InsertSparqlBean;
-import org.glycoinfo.rdf.glycan.Contributor;
 
 /*
 Insert mapped IDs between Accession number and PubMed ID by insert SPARQL.
