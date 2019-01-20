@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 //import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+//import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
  * To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/.
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
 //@SpringApplicationConfiguration(classes = {LiteratureProcedureTest.class, VirtSesameTransactionConfig.class, LiteratureProcedureConfig.class})
 @Configuration
 @EnableAutoConfiguration
