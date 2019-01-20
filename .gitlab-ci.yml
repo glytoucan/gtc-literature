@@ -1,0 +1,36 @@
+image: maven:latest
+
+stages:
+#  - test
+  - package
+  - deploy
+
+variables:
+  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository -da:org.openrdf..."
+
+cache:
+  paths:
+    - .m2/repository/
+    - target/
+
+#test:
+#  stage: test
+#  only:
+#    - master
+#  script:
+#    - mvn $MAVEN_CLI_OPTS -Dtest=ClassToTest test
+
+package:
+  stage: package
+  only:
+    - master
+  script:
+    - mvn $MAVEN_CLI_OPTS -DskipTests=true package
+
+deploy:
+  stage: deploy
+  only:
+    - master
+  script:
+    - mvn $MAVEN_CLI_OPTS -DskipTests=true deploy
