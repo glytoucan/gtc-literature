@@ -10,7 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import jp.bluetree.gov.ncbi.service.NCBIService;
 
 @Configuration
-public class LiteratureProcedureConfig implements GraphConfig {
+public class LiteratureProcedureConfig {
+	public static final String graph = "http://rdf.glytoucan.org";
 	
 	@Bean(name = "literatureProcedure")
 	LiteratureProcedure getLiteratureProcedure() throws SparqlException {

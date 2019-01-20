@@ -5,7 +5,7 @@
 
 	<groupId>org.glytoucan</groupId>
 	<artifactId>gtc-literature</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>gtc-literature</name>
@@ -22,9 +22,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.glytoucan</groupId>
+			<groupId>com.sparqlite</groupId>
 			<artifactId>sparqlbean</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
+			<version>0.04-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>jp.bluetree.gov</groupId>
