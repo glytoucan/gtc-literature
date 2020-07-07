@@ -5,7 +5,7 @@
 
 	<groupId>org.glytoucan</groupId>
 	<artifactId>gtc-literature</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>0.0.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>gtc-literature</name>
@@ -22,15 +22,17 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.sparqlite</groupId>
-			<artifactId>sparqlbean</artifactId>
-			<version>0.04-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>jp.bluetree.gov</groupId>
 			<artifactId>ncbi</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.glycosmos</groupId>
+			<artifactId>client</artifactId>
+			<version>0.1.4-SNAPSHOT</version>
+		</dependency>
+		
 	</dependencies>
 
 	<repositories>
@@ -45,6 +47,10 @@
 		<repository>
 			<id>glycoinfo</id>
 			<url>http://nexus.glycoinfo.org/content/groups/public</url>
+		</repository>
+		<repository>
+			<id>sparqlite</id>
+			<url>https://nexus.sparqlite.com/repository/maven-public/</url>
 		</repository>
 	</repositories>
 
@@ -82,6 +88,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<encoding>UTF-8</encoding>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 		</plugins>
