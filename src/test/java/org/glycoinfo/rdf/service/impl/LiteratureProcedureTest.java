@@ -1,10 +1,10 @@
 package org.glycoinfo.rdf.service.impl;
 
+import java.io.IOException;
+
 import org.apache.commons.logging.Log;
 
 import org.apache.commons.logging.LogFactory;
-import org.glycoinfo.rdf.dao.SparqlDAO;
-import org.glycoinfo.rdf.dao.virt.VirtSesameTransactionConfig;
 import org.glycoinfo.rdf.service.exception.LiteratureException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,7 +14,6 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 //import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.Configuration;
 //import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author shinmachi
@@ -32,23 +31,19 @@ public class LiteratureProcedureTest  {
   private static final Log logger = LogFactory.getLog(LiteratureProcedureTest.class);
 
 	@Autowired
-	SparqlDAO sparqlDAO;
-	
-	@Autowired
 	LiteratureProcedure literatureProcedure;
 	
 	
 	@Test
-	@Transactional
-	public void testAddLiterature() throws LiteratureException {
-		String id = literatureProcedure.searchLiterature("G12345MO");
+	public void testAddLiterature() throws LiteratureException, IOException {
+		String id = literatureProcedure.searchLiterature("G12345MO", "http://rdf.glytoucan.org/contributor/literature/demo");
 		Assert.assertNotNull(id);
 //		Assert.assertNull(id);
 		literatureProcedure.addLiterature("G12345MO", "12345", "543");
-		String id2 = literatureProcedure.searchLiterature("G12345MO");
+		String id2 = literatureProcedure.searchLiterature("G12345MO", "http://rdf.glytoucan.org/contributor/literature/demo");
 		Assert.assertNotNull(id2);
 		literatureProcedure.deleteLiterature("G12345MO", "12345", "543");
-		String id3 = literatureProcedure.searchLiterature("G12345MO");
+		String id3 = literatureProcedure.searchLiterature("G12345MO", "http://rdf.glytoucan.org/contributor/literature/demo");
 		Assert.assertNotNull(id3);
 //		String id = literatureProcedure.addLiterature("G12345MO", "123456");
 	}

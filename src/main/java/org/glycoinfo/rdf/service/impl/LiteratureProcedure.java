@@ -1,43 +1,30 @@
 package org.glycoinfo.rdf.service.impl;
 
+import java.io.IOException;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.glycoinfo.rdf.SparqlException;
-import org.glycoinfo.rdf.dao.SparqlDAO;
-import org.glycoinfo.rdf.dao.SparqlEntity;
-import org.glycoinfo.rdf.literature.DeleteLiterature;
-import org.glycoinfo.rdf.literature.InsertLiterature;
-import org.glycoinfo.rdf.literature.Literature;
-import org.glycoinfo.rdf.literature.SelectLiterature;
 import org.glycoinfo.rdf.service.exception.LiteratureException;
+import org.glycosmos.client.GlycosmosClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import jp.bluetree.gov.ncbi.model.Publication;
 import jp.bluetree.gov.ncbi.service.NCBIService;
 
 public class LiteratureProcedure {
 	private static final Log logger = LogFactory.getLog(LiteratureProcedure.class);
-	
-	@Autowired
-	SparqlDAO sparqlDAO;
-	
-	@Autowired
-	InsertLiterature insertLiterature;
-
-	@Autowired
-	DeleteLiterature deleteLiterature;
-	
+		
 	@Autowired
 	NCBIService ncbiService;
-	
+
 	@Autowired
-	SelectLiterature selectLiterature;
+	GlycosmosClient client;
 
 	/**
 	 * adds a Literature (bibo:Article).
 	 * This RDF construct by Accession number and PubMed ID
+	 * @throws IOException 
 	 
 		@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
 		@prefix dcterms: <http://purl.org/dc/terms/> .
@@ -55,26 +42,13 @@ public class LiteratureProcedure {
 		 @throws SparqlException
 	 * 
 	 */
-
-	// Add
-	@Transactional
-	public String addLiterature(String accessionNumber, String pubmedId, String contributorId) throws LiteratureException {
+	public String addLiterature(String accessionNumber, String pubmedId, String contributorId) throws LiteratureException, IOException {
 		if (StringUtils.isNotBlank(accessionNumber) && StringUtils.isNotBlank(pubmedId) && StringUtils.isNotBlank(contributorId)) {
 		  Publication pub = ncbiService.getSummary(pubmedId);
       if (null==pub || StringUtils.isBlank(pub.getTitle())) {
         throw new LiteratureException("could not retrieve publication title");
       }
-		  
-			SparqlEntity sparqlEntity = new SparqlEntity();
-			sparqlEntity.setValue(Literature.AccessionNumber, accessionNumber);
-			sparqlEntity.setValue(Literature.PubemdId, pubmedId);
-			sparqlEntity.setValue(Literature.ContributorId, contributorId);
-			insertLiterature.setSparqlEntity(sparqlEntity);
-			try {
-				sparqlDAO.insert(insertLiterature);
-			} catch (SparqlException e) {
-				throw new LiteratureException(e);
-			}
+			client.insertLiterature(accessionNumber, pubmedId, contributorId);
 		} else {
 			logger.info("PubMed ID is null");
 			throw new LiteratureException("literature id or accession number cannot be null.");
@@ -83,19 +57,9 @@ public class LiteratureProcedure {
 	}
 
 	// Delete
-	@Transactional
-	public String deleteLiterature(String accessionNumber, String pubmedId, String contributorId) throws LiteratureException {
+	public String deleteLiterature(String accessionNumber, String pubmedId, String contributorId) throws LiteratureException, IOException {
 		if (StringUtils.isNotBlank(accessionNumber) && StringUtils.isNotBlank(pubmedId) && StringUtils.isNotBlank(contributorId)) {
-			SparqlEntity sparqlEntity = new SparqlEntity();
-			sparqlEntity.setValue(Literature.AccessionNumber, accessionNumber);
-			sparqlEntity.setValue(Literature.PubemdId, pubmedId);
-			sparqlEntity.setValue(Literature.ContributorId, contributorId);
-			deleteLiterature.setSparqlEntity(sparqlEntity);
-			try {
-				sparqlDAO.delete(deleteLiterature);
-			} catch (SparqlException e) {
-				throw new LiteratureException(e);
-			}
+			client.deleteLiterature(accessionNumber, pubmedId, contributorId);
 		} else {
 			logger.info("PubMed ID is null");
       throw new LiteratureException("literature id cannot be null.");
@@ -103,18 +67,9 @@ public class LiteratureProcedure {
 		return pubmedId;
 	}
 
-	// Search
-	@Transactional
-	public String searchLiterature(String accessionNumber) throws LiteratureException {
+	public String searchLiterature(String accessionNumber, String graph) throws LiteratureException, IOException {
 		if (StringUtils.isNotBlank(accessionNumber)) {
-			SparqlEntity sparqlEntity = new SparqlEntity();
-			sparqlEntity.setValue(Literature.AccessionNumber, accessionNumber);
-			selectLiterature.setSparqlEntity(sparqlEntity);
-			try {
-				sparqlDAO.query(selectLiterature);
-			} catch (SparqlException e) {
-				throw new LiteratureException(e);
-			}
+			client.searchLiterature(accessionNumber, graph);
 		} else {
 			logger.info("PubMed ID is null");
       throw new LiteratureException("literature id cannot be null.");
