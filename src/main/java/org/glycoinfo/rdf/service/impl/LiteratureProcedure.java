@@ -9,6 +9,8 @@ import org.glycoinfo.rdf.service.exception.LiteratureException;
 import org.glycosmos.client.GlycosmosClient;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import jp.bluetree.gov.ncbi.model.Publication;
 import jp.bluetree.gov.ncbi.service.NCBIService;
 
@@ -20,6 +22,12 @@ public class LiteratureProcedure {
 
 	@Autowired
 	GlycosmosClient client;
+	
+	public LiteratureProcedure(NCBIService ncbiService, GlycosmosClient client) {
+		super();
+		this.ncbiService = ncbiService;
+		this.client = client;
+	}
 
 	/**
 	 * adds a Literature (bibo:Article).
@@ -42,38 +50,41 @@ public class LiteratureProcedure {
 		 @throws SparqlException
 	 * 
 	 */
-	public String addLiterature(String accessionNumber, String pubmedId, String contributorId) throws LiteratureException, IOException {
+	public JsonNode addLiterature(String accessionNumber, String pubmedId, String contributorId) throws LiteratureException, IOException {
+		JsonNode results = null;
 		if (StringUtils.isNotBlank(accessionNumber) && StringUtils.isNotBlank(pubmedId) && StringUtils.isNotBlank(contributorId)) {
-		  Publication pub = ncbiService.getSummary(pubmedId);
-      if (null==pub || StringUtils.isBlank(pub.getTitle())) {
+		  JsonNode pub = ncbiService.getSummary(pubmedId);
+      if (null==pub || StringUtils.isBlank(pub.findValue("title").asText())) {
         throw new LiteratureException("could not retrieve publication title");
       }
-			client.insertLiterature(accessionNumber, pubmedId, contributorId);
+			pub = client.insertLiterature(accessionNumber, pubmedId, contributorId);
 		} else {
 			logger.info("PubMed ID is null");
 			throw new LiteratureException("literature id or accession number cannot be null.");
 		}
-		return pubmedId;
+		return results;
 	}
 
 	// Delete
-	public String deleteLiterature(String accessionNumber, String pubmedId, String contributorId) throws LiteratureException, IOException {
+	public JsonNode deleteLiterature(String accessionNumber, String pubmedId, String contributorId) throws LiteratureException, IOException {
+		JsonNode results = null;
 		if (StringUtils.isNotBlank(accessionNumber) && StringUtils.isNotBlank(pubmedId) && StringUtils.isNotBlank(contributorId)) {
-			client.deleteLiterature(accessionNumber, pubmedId, contributorId);
+			results = client.deleteLiterature(accessionNumber, pubmedId, contributorId);
 		} else {
 			logger.info("PubMed ID is null");
       throw new LiteratureException("literature id cannot be null.");
 		}
-		return pubmedId;
+		return results;
 	}
 
-	public String searchLiterature(String accessionNumber, String graph) throws LiteratureException, IOException {
-		if (StringUtils.isNotBlank(accessionNumber)) {
-			client.searchLiterature(accessionNumber, graph);
+	public JsonNode  searchLiterature(String accessionNumber, String graph) throws LiteratureException, IOException {
+		JsonNode results = null;
+	if (StringUtils.isNotBlank(accessionNumber)) {
+			results = client.searchLiterature(accessionNumber, graph);
 		} else {
 			logger.info("PubMed ID is null");
       throw new LiteratureException("literature id cannot be null.");
 		}
-		return accessionNumber;
+		return results;
 	}
 }
